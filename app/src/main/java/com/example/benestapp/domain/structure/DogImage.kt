@@ -1,4 +1,4 @@
-package com.example.benestapp.domain
+package com.example.benestapp.domain.structure
 
 data class DogImage(
    val url: String,
