@@ -1,5 +1,6 @@
 package com.example.benestapp.view
 
+import android.graphics.ColorSpace
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,12 +13,16 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.benestapp.R
 import com.example.benestapp.domain.TodoListRepository
 import com.example.benestapp.domain.structure.Task
 import com.example.benestapp.domain.structure.TaskPriority
 import com.example.benestapp.ui.theme.BenestAppTheme
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.launch
 
 class TodoList(val todoListRepository: TodoListRepository) : ComponentActivity() {
@@ -38,61 +43,38 @@ class TodoList(val todoListRepository: TodoListRepository) : ComponentActivity()
 }
 
 @Composable
-fun AppScaffold(
-     body: @Composable () -> Unit
-) {
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Llista de tasques") },
-                backgroundColor = MaterialTheme.colors.primary,
-                navigationIcon = {
-                    IconButton(onClick = {
-                        scope.launch {
-                            scaffoldState.drawerState.apply {
-                                if (isClosed) open() else close()
-                            }
-                        }
-                    }) {
-                        Icon(Icons.Default.Menu, "Menu")
-                    }
-                }
-            )
-        },
-        drawerContent = {
-            Text("El teu espai")
-            Divider()
-        },
-    ) {
-        Box(Modifier.padding(it)) {
-            body()
+fun todoListView(todoList: List<Task>) {
+    Column() {
+        todoList.forEach { task ->
+            cardTask(task)
         }
     }
 }
 
-
 @Composable
-fun todoListView(todoList: List<Task>) {
-    Column() {
-        todoList.forEach { task ->
-            taskView(task)
-        }
-    }
+fun cardTask(task: Task) {
+    Card(
+        modifier = Modifier.padding(10.dp),
+        elevation = 3.dp,
+        shape = RoundedCornerShape(20.dp),
+        backgroundColor = Color.LightGray,
+        content = { taskView(task) })
 }
 
 @Composable
 fun taskView(task: Task) {
     Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
-            .background(MaterialTheme.colors.background),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .background(color = Color.LightGray, shape = RectangleShape)
+            .padding(5.dp),
     ) {
-        Text(text = task.text)
+        Text(
+            text = task.text,
+            modifier = Modifier.padding(10.dp)
+        )
         Text(
             text = task.priority.toString(),
             modifier = Modifier
