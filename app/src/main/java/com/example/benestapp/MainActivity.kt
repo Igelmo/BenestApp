@@ -3,12 +3,11 @@ package com.example.benestapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -24,7 +23,7 @@ class MainActivity : ComponentActivity() {
             BenestAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    Greeting()
                 }
             }
         }
@@ -33,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun Greeting(name: String) {
+fun Greeting() {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -59,6 +58,12 @@ fun Greeting(name: String) {
             Text("El teu espai")
             Divider()
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ }) {
+                Icon(Icons.Default.List, "Todo List")
+            }
+        }
     ) {
         Box(Modifier.padding(it)) {
         }
@@ -69,6 +74,6 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     BenestAppTheme {
-        Greeting("Android")
+        Greeting()
     }
 }
